@@ -41,7 +41,7 @@ jobs:
 #        rust-target: ${{ fromJSON(inputs.json-rust-target) }}
 #        rust: [stable]
     env:
-      TARGET_DIR: target/${{ matrix.rust-target }}/release
+      TARGET_DIR: target/${{ matrix.rust-target }}/release/${{ matrix.rust-target }}/release
       REPO_NORMAL: unknown-unknown
     steps:
       - run: |
@@ -140,10 +140,10 @@ jobs:
         with:
           name: ${{ matrix.rust-target }}
           path: |
-            ${{ env.TARGET_DIR }}/release
-            !${{ env.TARGET_DIR }}/release/build
-            !${{ env.TARGET_DIR }}/release/deps
+            target/${{ matrix.rust-target }}/release/${{ matrix.rust-target }}/release
+            !${{ env.TARGET_DIR }}/build
+            !${{ env.TARGET_DIR }}/deps
             # .fingerprint .cargo-lock
-            !${{ env.TARGET_DIR }}/release/.*
-            !${{ env.TARGET_DIR }}/release/*.d
+            !${{ env.TARGET_DIR }}/.*
+            !${{ env.TARGET_DIR }}/*.d
           retention-days: 1
