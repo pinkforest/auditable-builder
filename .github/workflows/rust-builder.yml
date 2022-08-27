@@ -121,17 +121,19 @@ jobs:
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
         run: |
-          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir=${{ env.TARGET_DIR }}
 
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
         run: |
-          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir=${{ env.TARGET_DIR }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
       ######################################################
       # Upload artifacts
+      #
+      # target/x86_64-unknown-linux-gnu/release/x86_64-unknown-linux-gnu
       #
       - name: Upload artifact - ${{ inputs.component }}
         uses: actions/upload-artifact@v2
