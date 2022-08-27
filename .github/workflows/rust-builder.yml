@@ -1,0 +1,58 @@
+name: "Radicle Component Builder"
+
+on:
+  workflow_call:
+    inputs:
+      component:
+        description: 'Radicle Component'
+        required: true
+        type: string
+      serial:
+        description: 'Unique Serial Identifier'
+        required: true
+        type: string
+
+jobs:
+  rust-builder:
+    name: Rust ${{ inputs.component }} @ ${{ inputs.serial }} for ${{ matrix.rust-target }} on (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        rust-target:
+          - x86_64-unknown-linux
+        rust: [stable]
+    env:
+      TARGET_DIR: target/${{ matrix.rust-target }}/release
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: radicle-dev/radicle-cli
+      - name: Install Rust ${{ matrix.rust }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          target: ${{ matrix.rust-target }}
+      ######################################################
+      # Cargo Auditable
+      #
+      # https://github.com/rust-secure-code/cargo-auditable
+      #
+      - name: Install Auditable
+        run: cargo install cargo-auditable rust-audit-info
+      - name: Build Auditable Build
+        run: cargo auditable build --release 
+
+      - name: ls -laR (debug)
+        run: ls -laR /
+      ######################################################
+      # Upload artifacts
+      #
+      - name: Upload artifact - ${{ inputs.component }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.component }}-${{ matrix.rust-target }}
+          path: ${{ env.TARGET_DIR }}/${{ inputs.name }}
+          retention-days: 1
