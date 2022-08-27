@@ -1,7 +1,8 @@
 name: "Radicle Component Builder"
 
 on:
-  workflow_call:
+  workflow_dispatch:
+#  workflow_call:
     inputs:
       component:
         description: 'Radicle Component'
