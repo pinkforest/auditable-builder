@@ -90,7 +90,7 @@ jobs:
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
         run: |
-          cargo auditable build --release --locked --bins --color always --target-dir ${{ env.TARGET_DIR }}
+          cargo auditable build --release --bins --color always --target-dir ${{ env.TARGET_DIR }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
