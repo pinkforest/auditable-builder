@@ -56,12 +56,13 @@ jobs:
           override: true
           target: ${{ matrix.rust-target }}
       - name: System
-        run: sudo apt update && sudo apt upgrade && sudo apt install lld
-      - name: Set up GCC
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64          
+        run: sudo apt update && sudo apt upgrade && sudo apt install -qq lld crossbuild-essential-arm64 crossbuild-essential-armhf
+#      - name: Set up GCC
+#        uses: egor-tensin/setup-gcc@v1
+#        with:
+#          version: latest
+#          platform: x64          
+###
 #      - name: Cache LLVM and Clang
 #        id: cache-llvm
 #        uses: actions/cache@v2
@@ -90,7 +91,21 @@ jobs:
           if [ ! -f $HOME/.cargo/bin/cargo-auditable ]; then
             cargo install cargo-auditable rust-audit-info
           fi
-
+      - name: .Cargo setup
+          cat >>~/.cargo/config <<EOF
+          [target.aarch64-unknown-linux-gnu]
+          linker = "aarch64-linux-gnu-gcc"
+          [target.aarch64-unknown-linux-musl]
+          linker = "aarch64-linux-gnu-gcc"
+          [target.armv7-unknown-linux-gnueabihf]
+          linker = "arm-linux-gnueabihf-gcc"
+          [target.armv7-unknown-linux-musleabihf]
+          linker = "arm-linux-gnueabihf-gcc"
+          [target.arm-unknown-linux-gnueabihf]
+          linker = "arm-linux-gnueabihf-gcc"
+          [target.arm-unknown-linux-musleabihf]
+          linker = "arm-linux-gnueabihf-gcc"
+          EOF
       ######################################################
       # Use serials:
       # PR-XXX-DATE
@@ -103,12 +118,12 @@ jobs:
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
         run: |
-          RUSTFLAGS="-C link-arg=-fuse-ld=lld" cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
 
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
         run: |
-          RUSTFLAGS="-C link-arg=-fuse-ld=lld" cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
