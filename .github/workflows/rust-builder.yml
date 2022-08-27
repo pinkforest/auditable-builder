@@ -16,7 +16,7 @@ on:
         description: 'Use cache?'
         required: true
         default: true
-        type: bool
+        type: boolean
 
 jobs:
   rust-builder:
