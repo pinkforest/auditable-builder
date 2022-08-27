@@ -55,22 +55,24 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           target: ${{ matrix.rust-target }}
+      - name: System
+        run: sudo apt update && sudo apt upgrade && sudo apt install lld
       - name: Set up GCC
         uses: egor-tensin/setup-gcc@v1
         with:
           version: latest
           platform: x64          
-      - name: Cache LLVM and Clang
-        id: cache-llvm
-        uses: actions/cache@v2
-        with:
-          path: ./llvm
-          key: llvm-3.5
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "3.5"
-          cached: ${{ steps.cache-llvm.outputs.cache-hit }}          
+#      - name: Cache LLVM and Clang
+#        id: cache-llvm
+#        uses: actions/cache@v2
+#        with:
+#          path: ./llvm
+#          key: llvm-3.5
+#      - name: Install LLVM and Clang
+#        uses: KyleMayes/install-llvm-action@v1
+#        with:
+#          version: "3.5"
+#          cached: ${{ steps.cache-llvm.outputs.cache-hit }}          
       ######################################################
       # Cargo Tools - Auditable, rust-audit-info
       #
