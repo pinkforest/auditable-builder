@@ -41,7 +41,7 @@ jobs:
 #        rust-target: ${{ fromJSON(inputs.json-rust-target) }}
 #        rust: [stable]
     env:
-      TARGET_DIR: target/${{ matrix.rust-target }}/release/${{ matrix.rust-target }}/release
+      TARGET_DIR: target/${{ matrix.rust-target }}/release
       REPO_NORMAL: unknown-unknown
     steps:
       - run: |
@@ -121,7 +121,7 @@ jobs:
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
         run: |
-          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir=${{ matrix.rust-target }}
+          cargo auditable build --release --locked --bins --color always --target ${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
 
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
