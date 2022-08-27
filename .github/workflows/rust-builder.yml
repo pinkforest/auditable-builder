@@ -20,7 +20,7 @@ on:
         type: boolean
       json-rust-target:
         description: 'JSON Rust Targets'
-        requried: true
+        required: true
         default: '["x86_64-unknown-linux-gnu"]'
         type: string
 
