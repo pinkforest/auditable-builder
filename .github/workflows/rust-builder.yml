@@ -65,7 +65,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         if: ${{ inputs.use-cache }}
         with:
-          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.serial }}
+          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}
 
       - name: Build Auditable Build
         run: |
