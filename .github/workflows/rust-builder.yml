@@ -59,7 +59,9 @@ jobs:
           key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
 
       - name: Build Auditable Build
-        run: cargo auditable build --release --locked --frozen --bins --color always --target-dir $${{ env.TARGET_DIR }}
+        run: |
+          mkdir -p ${{ env.TARGET_DIR }}
+          cargo auditable build --release --locked --frozen --bins --color always --target-dir $${{ env.TARGET_DIR }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
