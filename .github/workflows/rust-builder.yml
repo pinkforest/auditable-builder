@@ -57,7 +57,7 @@ jobs:
           override: true
           target: ${{ matrix.rust-target }}
       - name: System
-        if: ${{ startsWith(matrix.os, "ubuntu") }}
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: sudo apt update && sudo apt upgrade && sudo apt install -qq lld crossbuild-essential-arm64 crossbuild-essential-armhf
 #      - name: Set up GCC
 #        uses: egor-tensin/setup-gcc@v1
