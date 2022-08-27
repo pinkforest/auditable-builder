@@ -18,6 +18,11 @@ on:
         required: true
         default: true
         type: boolean
+      json-rust-target:
+        description: 'JSON Rust Targets'
+        requried: true
+        default: '["x86_64-unknown-linux-gnu"]'
+        type: string
 
 jobs:
   rust-builder:
@@ -27,8 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        rust-target:
-          - x86_64-unknown-linux-gnu
+        rust-target: ${{ fromJSON(inputs.json-rust-target) }}
         rust: [stable]
     env:
       TARGET_DIR: target/${{ matrix.rust-target }}/release
