@@ -65,7 +65,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         if: ${{ inputs.use-cache }}
         with:
-          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
+          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.serial }}
 
       - name: Build Auditable Build
         run: |
@@ -80,5 +80,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ inputs.component }}-${{ matrix.rust-target }}
-          path: ${{ env.TARGET_DIR }}/${{ inputs.name }}
+          path: ${{ env.TARGET_DIR }}/${{ inputs.component }}
           retention-days: 1
