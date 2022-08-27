@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: radicle-dev/radicle-cli
+          repository: ${{ inputs.component }}
       - name: Install Rust ${{ matrix.rust }}
         uses: actions-rs/toolchain@v1
         with:
