@@ -116,7 +116,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         if: ${{ inputs.use-cache }}
         with:
-          key: ${{ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
+          key: ${{ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}-000
 
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
