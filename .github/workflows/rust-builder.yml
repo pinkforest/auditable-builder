@@ -133,17 +133,17 @@ jobs:
       ######################################################
       # Upload artifacts
       #
-      # target/x86_64-unknown-linux-gnu/release/x86_64-unknown-linux-gnu
+      # target/x86_64-unknown-linux-gnu/release/x86_64-unknown-linux-gnu - !!
       #
       - name: Upload artifact - ${{ inputs.component }}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.rust-target }}
           path: |
-            target/${{ matrix.rust-target }}/release/${{ matrix.rust-target }}/release
-            !${{ env.TARGET_DIR }}/build
-            !${{ env.TARGET_DIR }}/deps
+            ${{ env.TARGET_DIR }}/${{ matrix.rust-target }}/release
+            !${{ env.TARGET_DIR }}/${{ matrix.rust-target }}/release/build
+            !${{ env.TARGET_DIR }}/${{ matrix.rust-target }}/release/deps
             # .fingerprint .cargo-lock
-            !${{ env.TARGET_DIR }}/.*
-            !${{ env.TARGET_DIR }}/*.d
+            !${{ env.TARGET_DIR }}/${{ matrix.rust-target }}/release/.*
+            !${{ env.TARGET_DIR }}/${{ matrix.rust-target }}/release/*.d
           retention-days: 1
