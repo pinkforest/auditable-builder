@@ -55,6 +55,11 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           target: ${{ matrix.rust-target }}
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64          
       - name: Cache LLVM and Clang
         id: cache-llvm
         uses: actions/cache@v2
