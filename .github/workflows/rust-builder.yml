@@ -1,15 +1,15 @@
-name: "Radicle Component Builder"
+name: "Rust Auditable Builder"
 
 on:
   workflow_dispatch:
 #  workflow_call:
     inputs:
       component:
-        description: 'Radicle Component'
+        description: 'Component'
         required: true
         type: string
       serial:
-        description: 'Unique Serial Identifier'
+        description: 'Unique Serial Cache Id'
         required: true
         type: string
       use-cache:
@@ -47,6 +47,7 @@ jobs:
       # https://github.com/rust-secure-code/cargo-auditable
       #
       - name: Cache Cargo Tools
+        if: ${{ inputs.use-cache }}
         uses: actions/cache@v3
         with:
           key: cargo-tools-20220827-000
@@ -65,7 +66,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         if: ${{ inputs.use-cache }}
         with:
-          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}
+          key: ${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
 
       - name: Build Auditable Build
         run: |
