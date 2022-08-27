@@ -42,12 +42,21 @@ jobs:
           override: true
           target: ${{ matrix.rust-target }}
       ######################################################
-      # Cargo Auditable
+      # Cargo Tools - Auditable, rust-audit-info
       #
       # https://github.com/rust-secure-code/cargo-auditable
       #
-      - name: Install Auditable
-        run: cargo install cargo-auditable rust-audit-info
+      - name: Cache Cargo Tools
+        uses: actions/cache@v3
+        with:
+          key: cargo-tools-20220827-000
+          path: |
+            ~/.cargo
+      - name: Install Cargo Tools
+        run: |
+          if [ ! -f $HOME/.cargo/bin/cargo-auditable ]; then
+            cargo install cargo-auditable rust-audit-info
+          fi
 
       ######################################################
       # Use serials:
