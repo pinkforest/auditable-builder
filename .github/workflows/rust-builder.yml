@@ -80,5 +80,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ inputs.component }}-${{ matrix.rust-target }}
-          path: ${{ env.TARGET_DIR }}/${{ inputs.component }}
+          path: |
+            ${{ env.TARGET_DIR }}/
+            !${{ env.TARGET_DIR }}/build
+            !${{ env.TARGET_DIR }}/deps
+            # .fingerprint .cargo-lock
+            !${{ env.TARGET_DIR }}/.*
+            !${{ env.TARGET_DIR }}/*.d
           retention-days: 1
