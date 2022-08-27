@@ -18,6 +18,11 @@ on:
         required: true
         default: true
         type: boolean
+      use-locked:
+        description: 'Use locked?'
+        required: true
+        default: true
+        type: boolean        
       json-rust-target:
         description: 'JSON Rust Targets'
         required: true
@@ -77,7 +82,13 @@ jobs:
         with:
           key: ${{ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
 
-      - name: Build Auditable Build
+      - name: Build Auditable Build (Locked)
+        if: ${{ inputs.use-locked == true }}
+        run: |
+          cargo auditable build --release --locked --bins --color always --target-dir ${{ env.TARGET_DIR }}
+
+      - name: Build Auditable Build (Unlocked)
+        if: ${{ inputs.use-locked == false }}
         run: |
           cargo auditable build --release --locked --bins --color always --target-dir ${{ env.TARGET_DIR }}
 
