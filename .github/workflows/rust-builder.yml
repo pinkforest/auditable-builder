@@ -89,7 +89,7 @@ jobs:
       - name: Upload artifact - ${{ inputs.component }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.REPO_NORMAL }}-${{ matrix.rust-target }}
+          name: ${{ matrix.rust-target }}
           path: |
             ${{ env.TARGET_DIR }}/release
             !${{ env.TARGET_DIR }}/release/build
