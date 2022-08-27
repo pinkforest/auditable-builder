@@ -12,6 +12,11 @@ on:
         description: 'Unique Serial Identifier'
         required: true
         type: string
+      use-cache:
+        description: 'Use cache?'
+        required: true
+        default: true
+        type: bool
 
 jobs:
   rust-builder:
@@ -43,11 +48,21 @@ jobs:
       #
       - name: Install Auditable
         run: cargo install cargo-auditable rust-audit-info
+
+      ######################################################
+      # Use serials:
+      # PR-XXX-DATE
+      # 
+      - uses: Swatinem/rust-cache@v2
+        if: ${{ inputs.use-cache }}
+        with:
+          key: $${ matrix.os }}-${{ matrix.rust-target }}-${{ inputs.component }}-${{ inputs.serial }}
+
       - name: Build Auditable Build
         run: cargo auditable build --release 
 
       - name: ls -laR (debug)
-        run: ls -laR /
+        run: ls -laR target/
       ######################################################
       # Upload artifacts
       #
