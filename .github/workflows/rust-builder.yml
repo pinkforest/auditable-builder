@@ -121,12 +121,12 @@ jobs:
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
         run: |
-          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir=${{ env.TARGET_DIR }}
+          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }}
 
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
         run: |
-          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir=${{ env.TARGET_DIR }}
+          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
