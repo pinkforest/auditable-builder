@@ -55,6 +55,8 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           target: ${{ matrix.rust-target }}
+      - name: Install System tools
+        run: apt-get update && apt-get install lld clang
       ######################################################
       # Cargo Tools - Auditable, rust-audit-info
       #
@@ -85,12 +87,12 @@ jobs:
       - name: Build Auditable Build (Locked)
         if: ${{ inputs.use-locked == true }}
         run: |
-          cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          RUSTFLAGS="-C link-arg=-fuse-ld=lld" cargo auditable build --release --locked --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
 
       - name: Build Auditable Build (Unlocked)
         if: ${{ inputs.use-locked == false }}
         run: |
-          cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
+          RUSTFLAGS="-C link-arg=-fuse-ld=lld" cargo auditable build --release --bins --color always --target=${{ matrix.rust-target }} --target-dir ${{ env.TARGET_DIR }}
 
       - name: ls -laR (debug)
         run: ls -laR target/
