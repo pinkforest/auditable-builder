@@ -86,10 +86,10 @@ jobs:
         with:
           name: ${{ env.REPO_NORMAL }}-${{ matrix.rust-target }}
           path: |
-            ${{ env.TARGET_DIR }}/
-            !${{ env.TARGET_DIR }}/build
-            !${{ env.TARGET_DIR }}/deps
+            ${{ env.TARGET_DIR }}/release
+            !${{ env.TARGET_DIR }}/release/build
+            !${{ env.TARGET_DIR }}/release/deps
             # .fingerprint .cargo-lock
-            !${{ env.TARGET_DIR }}/.*
-            !${{ env.TARGET_DIR }}/*.d
+            !${{ env.TARGET_DIR }}/release/.*
+            !${{ env.TARGET_DIR }}/release/*.d
           retention-days: 1
