@@ -1,4 +1,4 @@
-name: "Rust Auditable Builder"
+name: "Rust Auditable Multi-Builder"
 
 on:
 # debug:
